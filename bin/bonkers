@@ -1,18 +1,19 @@
 #!/usr/bin/env node
-
 // -*- mode: javascript -*-
 // vi: set ft=javascript :
 
 'use strict';
 
-var fs = require('fs'),
-http = require('http'),
-aws2js = require('aws2js'),
-program = require('commander'),
-async = require('async'),
-config = require('../bonkers.json'),
-command_given = false;
+var debug = require('debug')('bonker');
 
+var fs = require('fs');
+var http = require('http');
+var aws2js = require('aws2js');
+var program = require('commander');
+var async = require('async');
+
+var config = require('../bonkers.json');
+var command_given = false;
 
 var yaml = require('js-yaml');
 
