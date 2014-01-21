@@ -292,8 +292,9 @@ function getInstances(client, callback) {
 
 function pad(str, width) {
   while(str.length < width) {
-    str=' '+str; return str;
+    str=' '+str;
   }
+  return str;
 }
 
 
@@ -314,7 +315,7 @@ function printStatus() {
           message += ' ['+u.updateErr.code+']';
         }
       }
-      console.log('  '+inst.instanceId+'['+inst.instanceState.name+' - ' + 'ssh ubuntu@'+inst.ipAddress +' ]: '+message);
+      console.log('  '+inst.instanceId+'['+inst.instanceState.name+' - ' + 'ssh ubuntu@'+ inst.ipAddress +' ]: '+message);
 
       if (!u) {
         updaters[inst.instanceId] = u = {lastUpdateTime: Date.now(), lastReqTime: 0, updateRes: {}};
