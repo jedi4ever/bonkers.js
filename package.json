@@ -1,12 +1,51 @@
 {
-  "name": "ec2-fleet",
-  "version": "0.1.0",
+  "name": "bonkers",
+  "version": "0.0.1",
   "description": "A distributed load test framework using Amazon EC2 instances",
-  "author": "Alexander Shtuchkin <ashtuchkin@gmail.com>",
+  "bin": {
+    "bonkers": "./bin/bonkers"
+  },
+  "main": "./index.js",
+  "author": "Patrick Debois <patrick.debois@jedi.be>",
   "dependencies": {
     "aws2js": "",
     "commander": "",
     "async": "",
-    "js-yaml": "~3.0.1"
-  }
+    "js-yaml": "~3.0.1",
+    "handlebars": "~1.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jedi4ever/bonkers.js.git"
+  },
+    "keywords": [
+      "aws",
+      "ec2",
+      "load",
+      "loadtest"
+    ],
+    "devDependencies": {
+      "mocha": "*",
+      "jshint": "*",
+      "jscoverage": "*",
+      "nodewatch": "*",
+      "assert": "*",
+      "expect.js": "*",
+      "should": "0.5.1",
+      "grunt": "~0.4.1",
+      "grunt-contrib-jshint": "~0.6.0",
+      "grunt-contrib-watch": "~0.4.4",
+      "grunt-release": "~0.3.5",
+      "grunt-html": "~0.3.3",
+      "grunt-readme-generator": "~0.3.41",
+      "grunt-contrib-clean": "~0.5.0",
+      "grunt-jsdoc": "~0.4.0",
+      "grunt-gh-pages": "~0.7.1",
+      "grunt-mocha-test": "~0.8.1",
+      "blanket": "~1.1.6"
+    },
+    "license": "MIT",
+    "engine": {
+      "node": ">=0.10"
+    }
 }

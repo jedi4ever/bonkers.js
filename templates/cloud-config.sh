@@ -20,10 +20,27 @@ add-apt-repository ppa:chris-lea/node.js
 apt-get update
 apt-get install -y nodejs
 
+apt-get install -y build-essential
+
+# Make sure we have a redis installed for our redis client requests
+cd /root
+wget http://download.redis.io/releases/redis-2.8.3.tar.gz -O redis-stable.tar.gz
+mkdir redis-stable
+cd redis-stable
+tar --strip-components=1 -xvzf ../redis-stable.tar.gz
+make
+make install
+
+
 # Write our client code.
-sudo -u ubuntu tee -a /home/ubuntu/client.js > /dev/null <<"EOF"
-<%=client.js%>
+{{#scenarios}}
+sudo -u ubuntu tee -a /home/ubuntu/{{name}}.js > /dev/null <<"EOF"
+{{source}}
 EOF
+
+{{/scenarios}}
+
+sudo -i -u ubuntu npm install hiredis redis request
 
 # Write Upstart job.
 cat > /etc/init/client.conf <<"EOF"
@@ -43,4 +60,6 @@ EOF
 # Output is written to /var/log/upstart/client.log
 mkdir -p /var/log/upstart
 initctl reload-configuration
+
+
 start client

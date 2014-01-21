@@ -1,4 +1,4 @@
-# ec2-fleet
+# bonkers
 
 A distributed load test framework using Amazon EC2 instances.
 
@@ -13,41 +13,41 @@ using 40 EC2 Micro instances.
 # First, install Node.js (see http://nodejs.org)
 # The installation is tested on Ubuntu 12.04.
 
-git clone git://github.com/ashtuchkin/ec2-fleet.git
-cd ec2-fleet
+git clone git://github.com/jedi4ever/bonkers.git
+cd bonkers
 
 # Install all needed modules.
 npm install
 
-# Edit accessKeyId, accessKeySecret in aws-config.json
+# Edit accessKeyId, accessKeySecret in bonkers.json
 # https://portal.aws.amazon.com/gp/aws/securityCredentials
 # Also, choose regions where you wish your instances to be launched.
 # Full list: ["ap-northeast-1", "ap-southeast-1", "eu-west-1", "sa-east-1", "us-east-1", "us-west-1", "us-west-2"]
 # Important! In all these regions you should edit Security Group 'default' to open control port 8889 for TCP 0.0.0.0/0 
-nano aws-config.json
+nano bonkers.json
 
 # Start 10 instances evenly distributed across the regions.
 # All instances are tagged according to 'instanceTags' field in aws-config.json.
-./aws.js start 10
+./bin/bonkers start 10
 
 # Watch status of our instances (similar to 'top' command).
 # Launch a separate terminal for this.
-./aws.js status
+./bin/bonkers status
 
 # Set the target IP of server to test.
-./aws.js set host <ip>
+./bin/bonkers set host <ip>
 
 # Set the amount of connections to keep with the target from EACH instance.
-./aws.js set n 1000
+./bin/bonkers set n 1000
 
 # Maximum recommended value = 25000 for EC2 Micro instance.
-./aws.js set n 25000
+./bin/bonkers set n 25000
 
 # Restart node process in all instances (recommended to do between tests).
-./aws.js set restart 1
+./bin/bonkers set restart 1
 
 # After all tests, terminate all instances that we started (all existing instances are not touched).
-./aws.js stop all
+./bin/bonkers stop all
 ```
 
 ## How does it work?

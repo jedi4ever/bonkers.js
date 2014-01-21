@@ -2,11 +2,11 @@
     "accessKeyId": "<your 'Access Key Id' (see https://portal.aws.amazon.com/gp/aws/securityCredentials)>",
     "accessKeySecret": "<your 'Secret Access Key'>",
     "regions": ["eu-west-1" ],
-    "userDataFile": "cloud-config.sh",
+    "userDataFile": "./templates/cloud-config.sh",
     "instanceTags": { 
         "loadtesting-eurosong": "yes"
     },
-    "instanceType": "m1.small",
+    "instanceType": "c1.medium",
     "keyName": "eurosong2014",
     "controlPort": 8889,
     "securityGroups": [ "Tsung" , "Webserver", "Studio" , "Redis"]
