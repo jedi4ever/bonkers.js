@@ -8,9 +8,9 @@
   "main": "./index.js",
   "author": "Patrick Debois <patrick.debois@jedi.be>",
   "dependencies": {
-    "aws2js": "",
-    "commander": "",
-    "async": "",
+    "aws2js": "~0.8.3",
+    "commander": "~2.1.0",
+    "async": "~0.2.9",
     "js-yaml": "~3.0.1",
     "handlebars": "~1.3.0"
   },
