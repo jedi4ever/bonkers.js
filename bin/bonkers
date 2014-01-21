@@ -32,11 +32,8 @@ config.accessKeySecret = creds[':aws_secret_access_key'];
 
 var version = JSON.parse(fs.readFileSync(__dirname+ '/../package.json')).version;
 
-console.log(version);
-
-process.exit(-1);
 program
-.version('0.1.0');
+.version(version);
 
 program
 .command('start [num] [region]')
