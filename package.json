@@ -1,6 +1,6 @@
 {
   "name": "bonkers",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A distributed load test framework using Amazon EC2 instances",
   "bin": {
     "bonkers": "./bin/bonkers"

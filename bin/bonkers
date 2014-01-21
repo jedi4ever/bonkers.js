@@ -30,6 +30,11 @@ var creds = fog[':default'];
 config.accessKeyId = creds[':aws_access_key_id'];
 config.accessKeySecret = creds[':aws_secret_access_key'];
 
+var version = JSON.parse(fs.readFileSync(__dirname+ '/../package.json')).version;
+
+console.log(version);
+
+process.exit(-1);
 program
 .version('0.1.0');
 
