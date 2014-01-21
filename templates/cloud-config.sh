@@ -34,8 +34,8 @@ make install
 
 # Write our client code.
 {{#scenarios}}
-sudo -u ubuntu tee -a /home/ubuntu/{{name}}.js > /dev/null <<"EOF"
-{{source}}
+sudo -u ubuntu tee -a /home/ubuntu/{{{name}}}.js > /dev/null <<"EOF"
+{{{source}}}
 EOF
 
 {{/scenarios}}
