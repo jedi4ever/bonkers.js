@@ -3,7 +3,8 @@
   "version": "0.0.4",
   "description": "A distributed load test framework using Amazon EC2 instances",
   "bin": {
-    "bonkers": "./bin/bonkers"
+    "bonkers": "./bin/bonkers",
+    "bonkers-agent": "./lib/agent.js"
   },
   "main": "./index.js",
   "author": "Patrick Debois <patrick.debois@jedi.be>",
