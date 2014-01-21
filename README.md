@@ -54,10 +54,10 @@ nano bonkers.json
 
 The framework uses a 'Cloud Init' feature of Ubuntu AWS images. When an instance is to be started, a vanilla 
 image of Ubuntu is used (by default Ubuntu 12.04 64bit EBS), which runs a script given in file cloud-config.sh. 
-The script installs Node.js, main file client.js and an Upstart job to launch it. After this, the client.js 
+The script installs Node.js, main file agent.js and an Upstart job to launch it. After this, the agent.js 
 starts listening on control port (8889 by default) and obeys given commands (see the source).
 
-At any time you can edit client.js and all new instances will use the new version of it.
+At any time you can edit agent.js and all new instances will use the new version of it.
 
 License: MIT
 

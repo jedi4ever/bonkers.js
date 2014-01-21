@@ -160,22 +160,21 @@ function getClient(region) {
 
 
 function startInstance(client) {
-  // Prepare userdata and do a basic templating (replace <%=filename.ext%> to contents of filename.ext).
-  /*
-     var userdata = fs.readFileSync(config.userDataFile, "utf8").replace(/<%=(.*)%>/g, function(_, name) {
-     return fs.readFileSync(name, "utf8");
-     });
-     */
+  // Prepare userdata and do a basic templating
   var Handlebars = require('handlebars');
   var userDataSource = fs.readFileSync(config.userDataFile, 'utf8');
   var template = Handlebars.compile(userDataSource);
 
-  var source1 = fs.readFileSync(__dirname + '/../scenarios/http-get.js', 'utf8');
-  var source2 = fs.readFileSync(__dirname + '/../scenarios/redis-set.js', 'utf8');
+  var source1 = fs.readFileSync(__dirname + '/../lib/scenarios/http-get.js', 'utf8');
+  var source2 = fs.readFileSync(__dirname + '/../lib/scenarios/redis-set.js', 'utf8');
+  var agentSource = fs.readFileSync(__dirname + '/../lib/agent.js', 'utf8');
   var userDataParams = {
     scenarios: [
       { name: 'http-get', source: source1 } ,
       { name: 'redis-set', source: source2 }
+    ],
+    agent: [
+      { name: 'agent', source: agentSource } ,
     ]
   };
 

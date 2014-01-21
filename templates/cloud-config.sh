@@ -31,10 +31,18 @@ tar --strip-components=1 -xvzf ../redis-stable.tar.gz
 make
 make install
 
-
-# Write our client code.
-{{#scenarios}}
+# Write our scenario's code
+{{#agent}}
 sudo -u ubuntu tee -a /home/ubuntu/{{{name}}}.js > /dev/null <<"EOF"
+{{{source}}}
+EOF
+{{/agent}}
+
+sudo -u ubuntu mkdir -p /home/ubuntu/scenarios/
+
+# Write our scenario's code
+{{#scenarios}}
+sudo -u ubuntu tee -a /home/ubuntu/scenarios/{{{name}}}.js > /dev/null <<"EOF"
 {{{source}}}
 EOF
 
