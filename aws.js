@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+
 var fs = require('fs'),
     http = require('http'),
     aws2js = require('aws2js'),
@@ -7,6 +8,24 @@ var fs = require('fs'),
     async = require('async'),
     config = require('./aws-config.json'),
     command_given = false;
+
+
+var yaml = require('js-yaml');
+
+var fog;
+// Get document, or throw exception on error
+try {
+  fog = yaml.safeLoad(fs.readFileSync([process.env.HOME, '.fog'].join('/'), 'utf8'));
+  //console.log(fog);
+} catch (e) {
+  //console.log(e);
+  process.exit(-1);
+}
+
+var creds = fog[':default'];
+config['accessKeyId'] = creds[':aws_access_key_id'];
+config['accessKeySecret'] = creds[':aws_secret_access_key'];
+console.log(config);
 
 program
     .version('0.1.0');
