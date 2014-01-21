@@ -6,7 +6,7 @@
     "instanceTags": { 
         "loadtesting-eurosong": "yes"
     },
-    "instanceType": "c1.medium",
+    "instanceType": "t1.micro",
     "keyName": "eurosong2014",
     "controlPort": 8889,
     "securityGroups": [ "Tsung" , "Webserver", "Studio" , "Redis"]
