@@ -51,7 +51,7 @@ EOF
 sudo -i -u ubuntu npm install hiredis redis request
 
 # Write Upstart job.
-cat > /etc/init/client.conf <<"EOF"
+cat > /etc/init/agent.conf <<"EOF"
     start on runlevel [2345]
 
     respawn
@@ -61,7 +61,7 @@ cat > /etc/init/client.conf <<"EOF"
     chdir /home/ubuntu
     limit nofile 100000 100000
 
-    exec node client.js
+    exec node agent.js
 EOF
 
 # The upstart job will launch our client and keep it alive.
@@ -70,4 +70,4 @@ mkdir -p /var/log/upstart
 initctl reload-configuration
 
 
-start client
+start agent
