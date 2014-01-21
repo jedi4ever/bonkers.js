@@ -27,7 +27,7 @@ npm install
 nano bonkers.json
 
 # Start 10 instances evenly distributed across the regions.
-# All instances are tagged according to 'instanceTags' field in aws-config.json.
+# All instances are tagged according to 'instanceTags' field in bonkers.json.
 ./bin/bonkers start 10
 
 # Watch status of our instances (similar to 'top' command).
