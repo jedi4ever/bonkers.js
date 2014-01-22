@@ -1,0 +1,104 @@
+#!/usr/bin/env node
+// -*- mode: javascript -*-
+// vi: set ft=javascript :
+
+'use strict';
+
+var debug = require('debug')('bonker');
+
+var fs = require('fs');
+var http = require('http');
+var aws2js = require('aws2js');
+var program = require('commander');
+var async = require('async');
+
+var config = require('../bonkers.json');
+var command_given = false;
+
+var yaml = require('js-yaml');
+
+var version = JSON.parse(fs.readFileSync(__dirname+ '/../package.json')).version;
+var client = null;
+var instance = {
+  dnsName: 'localhost',
+  instanceId: 1
+}
+
+program
+.version(version);
+
+program
+.command('set <param> <value>')
+.description('Set a parameter to given value in all current instances.')
+.action(function(param, val) {
+  command_given = true;
+  sendParam(client, instance, param, val);
+});
+
+program
+.command('bonk')
+.description('Start bonking')
+.action(function() {
+  command_given = true;
+  var param = 'bonk';
+  var val = 'bonk';
+  sendParam(client, instance, param, val);
+});
+
+program
+.command('nobonk')
+.description('Stop bonking')
+.action(function() {
+  command_given = true;
+  var param = 'nobonk';
+  var val = '';
+  sendParam(client, instance, param, val);
+});
+
+function sendParam(client, inst, param, val) {
+  if (!inst.dnsName) {
+    return console.error('Instance '+inst.instanceId+' has no dnsName.');
+  }
+  var p = {};
+  p[param] = val;
+  var query = require('querystring').stringify(p);
+
+  var path;
+  if (param === 'bonk') {
+    path = '/bonk';
+  } else if (param === 'nobonk') {
+    path = '/nobonk';
+  } else if (param === 'reload') {
+    path = '/reload';
+  } else {
+    path = '/set?'+query;
+  }
+
+  var req = http.request({host: inst.dnsName, port: config.controlPort, path: path});
+  req.on('response', function(res) {
+    if (res.statusCode !== 200) {
+      return console.error('Instance '+inst.instanceId+ ' status code = ' + res.statusCode);
+    }
+
+    var text = '';
+    res.setEncoding('utf8');
+    res.on('data', function(data) {
+      text += data;
+    });
+    res.on('end', function() {
+      console.log('Instance '+inst.instanceId+ ' OK: '+text);
+    });
+  });
+  req.on('error', function(err) {
+    console.error('Instance '+inst.instanceId+' error:'+err);
+  });
+  req.end();
+}
+
+// == Process command line arguments ===========================================
+
+program.parse(process.argv);
+
+if (!command_given) {
+  program.parse(process.argv.slice(0,2).concat(['-h'])); // Print help.
+}
