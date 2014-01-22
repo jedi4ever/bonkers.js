@@ -37,8 +37,8 @@ program
 .version(version);
 
 program
-.command('start [num] [region]')
-.description('Add <num> AWS instances. Default = 1.')
+.command('up [num] [region]')
+.description('Spin Up <num> AWS instances. Default = 1.')
 .action(function(num, region) {
   command_given = true;
   var nInstances = +(num || 1);
@@ -49,8 +49,8 @@ program
 });
 
 program
-.command('stop [num] [region]')
-.description('Remove <num> AWS instances. Default = 1. Accepts \'all\'.')
+.command('destroy [num] [region]')
+.description('Destroy <num> AWS instances. Default = 1. Accepts \'all\'.')
 .action(function(num, region) {
   command_given = true;
   var nInstances = (num == 'all') ? 10000 : +(num || 1);
@@ -93,6 +93,57 @@ program
 .description('Set a parameter to given value in all current instances.')
 .action(function(param, val) {
   command_given = true;
+  var regions = config.regions;
+  regions.map(getClient).forEach(function(client) {
+    getInstances(client, function(err, instances) {
+      for (var i = 0; i < instances.length; i++) {
+        sendParam(client, instances[i], param, val);
+      }
+    });
+  });
+});
+
+program
+.command('reset')
+.description('reset and reload all agents')
+.action(function() {
+  var param = 'reset';
+  var val = '';
+  command_given = true;
+  var regions = config.regions;
+  regions.map(getClient).forEach(function(client) {
+    getInstances(client, function(err, instances) {
+      for (var i = 0; i < instances.length; i++) {
+        sendParam(client, instances[i], param, val);
+      }
+    });
+  });
+});
+
+program
+.command('bonk')
+.description('Start bonking')
+.action(function() {
+  command_given = true;
+  var param = 'bonk';
+  var val = 'bonk';
+  var regions = config.regions;
+  regions.map(getClient).forEach(function(client) {
+    getInstances(client, function(err, instances) {
+      for (var i = 0; i < instances.length; i++) {
+        sendParam(client, instances[i], param, val);
+      }
+    });
+  });
+});
+
+program
+.command('nobonk')
+.description('Stop bonking')
+.action(function() {
+  command_given = true;
+  var param = 'nobonk';
+  var val = '';
   var regions = config.regions;
   regions.map(getClient).forEach(function(client) {
     getInstances(client, function(err, instances) {
@@ -369,7 +420,18 @@ function sendParam(client, inst, param, val) {
   var p = {};
   p[param] = val;
   var query = require('querystring').stringify(p);
-  var path = (query == 'restart=1') ? '/restart' : ('/set?'+query);
+
+  var path;
+  if (param === 'bonk') {
+    path = '/bonk';
+  } else if (param === 'nobonk') {
+    path = '/nobonk';
+  } else if (param === 'restart') {
+    path = '/restart';
+  } else {
+    path = '/set?'+query;
+  }
+
   var req = http.request({host: inst.dnsName, port: config.controlPort, path: path});
   req.on('response', function(res) {
     if (res.statusCode !== 200) {

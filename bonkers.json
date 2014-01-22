@@ -9,5 +9,7 @@
     "instanceType": "t1.micro",
     "keyName": "eurosong2014",
     "controlPort": 8889,
-    "securityGroups": [ "Tsung" , "Webserver", "Studio" , "Redis"]
+    "securityGroups": [ "Tsung" , "Webserver", "Studio" , "Redis"],
+    "dependencies": {
+    }
 }
