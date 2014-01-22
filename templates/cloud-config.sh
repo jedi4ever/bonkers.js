@@ -48,7 +48,7 @@ EOF
 
 {{/scenarios}}
 
-sudo -i -u ubuntu npm install hiredis redis request statsd async
+sudo -i -u ubuntu npm install hiredis redis request statsd async debug
 
 # Write Upstart job.
 cat > /etc/init/agent.conf <<"EOF"
