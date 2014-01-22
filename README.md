@@ -28,7 +28,7 @@ nano bonkers.json
 
 # Start 10 instances evenly distributed across the regions.
 # All instances are tagged according to 'instanceTags' field in bonkers.json.
-./bin/bonkers start 10
+./bin/bonkers up 10
 
 # Watch status of our instances (similar to 'top' command).
 # Launch a separate terminal for this.
@@ -44,10 +44,10 @@ nano bonkers.json
 ./bin/bonkers set n 25000
 
 # Restart node process in all instances (recommended to do between tests).
-./bin/bonkers set restart 1
+./bin/bonkers reload
 
 # After all tests, terminate all instances that we started (all existing instances are not touched).
-./bin/bonkers stop all
+./bin/bonkers destroy all
 ```
 
 ## How does it work?
