@@ -104,10 +104,10 @@ program
 });
 
 program
-.command('reset')
+.command('reload')
 .description('reset and reload all agents')
 .action(function() {
-  var param = 'reset';
+  var param = 'reload';
   var val = '';
   command_given = true;
   var regions = config.regions;
@@ -426,8 +426,8 @@ function sendParam(client, inst, param, val) {
     path = '/bonk';
   } else if (param === 'nobonk') {
     path = '/nobonk';
-  } else if (param === 'restart') {
-    path = '/restart';
+  } else if (param === 'reload') {
+    path = '/reload';
   } else {
     path = '/set?'+query;
   }
