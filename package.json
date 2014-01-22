@@ -4,6 +4,7 @@
   "description": "A distributed load test framework using Amazon EC2 instances",
   "bin": {
     "bonkers": "./bin/bonkers",
+    "bonkers-local": "./bin/bonkers-local",
     "bonkers-agent": "./lib/agent.js"
   },
   "main": "./index.js",
