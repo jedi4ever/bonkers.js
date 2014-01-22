@@ -36,21 +36,41 @@ program
 });
 
 program
-.command('bonk')
-.description('Start bonking')
-.action(function() {
+.command('stats')
+.description('Get stats')
+.action(function(param, val) {
   command_given = true;
-  var param = 'bonk';
-  var val = 'bonk';
+  var param = 'stats';
+  var val = '';
   sendParam(client, instance, param, val);
 });
 
 program
-.command('nobonk')
+.command('reset')
+.description('reset stats')
+.action(function(param, val) {
+  command_given = true;
+  var param = 'reset';
+  var val = '';
+  sendParam(client, instance, param, val);
+});
+
+program
+.command('go')
+.description('Start bonking')
+.action(function() {
+  command_given = true;
+  var param = 'go';
+  var val = '';
+  sendParam(client, instance, param, val);
+});
+
+program
+.command('finish')
 .description('Stop bonking')
 .action(function() {
   command_given = true;
-  var param = 'nobonk';
+  var param = 'finish';
   var val = '';
   sendParam(client, instance, param, val);
 });
@@ -64,10 +84,14 @@ function sendParam(client, inst, param, val) {
   var query = require('querystring').stringify(p);
 
   var path;
-  if (param === 'bonk') {
-    path = '/bonk';
-  } else if (param === 'nobonk') {
-    path = '/nobonk';
+  if (param === 'go') {
+    path = '/go';
+  } else if (param === 'stats') {
+    path = '/stats';
+  } else if (param === 'reset') {
+    path = '/reset';
+  } else if (param === 'finish') {
+    path = '/finish';
   } else if (param === 'reload') {
     path = '/reload';
   } else {
