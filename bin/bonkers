@@ -32,6 +32,8 @@ if (config.fogEnable) {
   var fogFile = [ process.env.HOME, '.fog'].join('/') || config.fogFile;
   var fogKey = ':default' || config.fogKey;
   var awsCreds = fogHelper.readAwsCredentialsSync(fogFile, fogKey);
+  config.accessKeyId = awsCreds.accessKeyId;
+  config.accessKeySecret = awsCreds.accessKeySecret;
 }
 
 var version = JSON.parse(fs.readFileSync(__dirname+ '/../package.json')).version;

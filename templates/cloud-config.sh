@@ -47,6 +47,11 @@ sudo -u ubuntu tee -a /home/ubuntu/scenarios/{{{name}}}.js > /dev/null <<"EOF"
 EOF
 {{/scenarios}}
 
+# Write our scripts
+{{#scripts}}
+{{{source}}}
+{{/scripts}}
+
 sudo -i -u ubuntu npm install hiredis redis request statsd async debug
 
 # Installing npm dependencies
