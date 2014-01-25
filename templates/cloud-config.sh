@@ -31,7 +31,7 @@ tar --strip-components=1 -xvzf ../redis-stable.tar.gz
 make
 make install
 
-# Write our scenario's code
+# Write our agent code
 {{#agent}}
 sudo -u ubuntu tee -a /home/ubuntu/{{{name}}}.js > /dev/null <<"EOF"
 {{{source}}}
@@ -45,7 +45,6 @@ sudo -u ubuntu mkdir -p /home/ubuntu/scenarios/
 sudo -u ubuntu tee -a /home/ubuntu/scenarios/{{{name}}}.js > /dev/null <<"EOF"
 {{{source}}}
 EOF
-
 {{/scenarios}}
 
 sudo -i -u ubuntu npm install hiredis redis request statsd async debug
