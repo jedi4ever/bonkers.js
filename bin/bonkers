@@ -4,7 +4,7 @@
 
 'use strict';
 
-var debug = require('debug')('bonker');
+var debug = require('debug')('bonkers');
 var fogHelper = require('../lib/helper/fog');
 var userdataHelper = require('../lib/helper/userdata');
 
@@ -33,8 +33,6 @@ if (config.fogEnable) {
   var fogKey = ':default' || config.fogKey;
   var awsCreds = fogHelper.readAwsCredentialsSync(fogFile, fogKey);
 }
-
-console.log(config);
 
 var version = JSON.parse(fs.readFileSync(__dirname+ '/../package.json')).version;
 
