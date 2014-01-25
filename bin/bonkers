@@ -12,24 +12,49 @@ var aws2js = require('aws2js');
 var program = require('commander');
 var async = require('async');
 
-var config = require('../bonkers.json');
+debug('about to read config file bonkers.json');
+var config;
+try {
+  var configContent = fs.readFileSync('bonkers.json', 'utf8');
+  config = JSON.parse(configContent);
+} catch (e) {
+  debug('failed to load config file',e);
+  console.error('Failed to find the bonkers.json in the current directory:');
+  console.error(e.toString());
+  process.exit(-1);
+};
+
 var command_given = false;
 
 var yaml = require('js-yaml');
 
-var fog;
-// Get document, or throw exception on error
-try {
-  fog = yaml.safeLoad(fs.readFileSync([process.env.HOME, '.fog'].join('/'), 'utf8'));
-} catch (e) {
-  console.error('We\'re looking for default ~/.fog credentials');
-  console.log(e);
-  process.exit(-1);
+function readFogAwsCredentialsSync(fogFile, fogKey) {
+  var credential = {};
+  var fog;
+  debug('reading fog file', fogFile, 'for key', fogKey);
+  // Get document, or throw exception on error
+  try {
+    fog = yaml.safeLoad(fs.readFileSync([process.env.HOME, '.fog'].join('/'), 'utf8'));
+    var fogCreds = fog[fogKey];
+    if (fogCreds) {
+      credential.accessKeyId = fogCreds[':aws_access_key_id'];
+      credential.accessKeySecret = fogCreds[':aws_secret_access_key'];
+    }
+    return credential;
+  } catch (e) {
+    debug('error reading fogfile', fogFile, e.toString());
+    return null;
+  }
+};
+
+if (config.fogEnable) {
+  var fogFile = [ process.env.HOME, '.fog'].join('/') || config.fogFile;
+  var fogKey = ':default' || config.fogKey;
+  var awsCreds = readFogAwsCredentialsSync(fogFile, fogKey);
+  console.log(awsCreds);
 }
 
-var creds = fog[':default'];
-config.accessKeyId = creds[':aws_access_key_id'];
-config.accessKeySecret = creds[':aws_secret_access_key'];
+console.log(config);
 
 var version = JSON.parse(fs.readFileSync(__dirname+ '/../package.json')).version;
 
@@ -239,7 +264,7 @@ function startInstance(client) {
   var userDataParams = {
     scenarios: [
       { name: 'http-get', source: source1 } ,
-      { name: 'redis-set', source: source2 }
+      { name: 'redis-set', source: source2 },
     ],
     agent: [
       { name: 'agent', source: agentSource } ,
