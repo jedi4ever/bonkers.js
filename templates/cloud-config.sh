@@ -49,6 +49,11 @@ EOF
 
 sudo -i -u ubuntu npm install hiredis redis request statsd async debug
 
+# Installing npm dependencies
+{{#dependencies}}
+sudo -i -u ubuntu npm install {{ name }}
+{{/dependencies}}
+
 # Write Upstart job.
 cat > /etc/init/agent.conf <<"EOF"
     start on runlevel [2345]

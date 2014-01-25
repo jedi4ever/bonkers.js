@@ -5,6 +5,8 @@
 'use strict';
 
 var debug = require('debug')('bonker');
+var fogHelper = require('../lib/helper/fog');
+var userdataHelper = require('../lib/helper/userdata');
 
 var fs = require('fs');
 var http = require('http');
@@ -22,36 +24,14 @@ try {
   console.error('Failed to find the bonkers.json in the current directory:');
   console.error(e.toString());
   process.exit(-1);
-};
+}
 
 var command_given = false;
-
-var yaml = require('js-yaml');
-
-function readFogAwsCredentialsSync(fogFile, fogKey) {
-  var credential = {};
-  var fog;
-  debug('reading fog file', fogFile, 'for key', fogKey);
-  // Get document, or throw exception on error
-  try {
-    fog = yaml.safeLoad(fs.readFileSync([process.env.HOME, '.fog'].join('/'), 'utf8'));
-    var fogCreds = fog[fogKey];
-    if (fogCreds) {
-      credential.accessKeyId = fogCreds[':aws_access_key_id'];
-      credential.accessKeySecret = fogCreds[':aws_secret_access_key'];
-    }
-    return credential;
-  } catch (e) {
-    debug('error reading fogfile', fogFile, e.toString());
-    return null;
-  }
-};
 
 if (config.fogEnable) {
   var fogFile = [ process.env.HOME, '.fog'].join('/') || config.fogFile;
   var fogKey = ':default' || config.fogKey;
-  var awsCreds = readFogAwsCredentialsSync(fogFile, fogKey);
-  console.log(awsCreds);
+  var awsCreds = fogHelper.readAwsCredentialsSync(fogFile, fogKey);
 }
 
 console.log(config);
@@ -253,25 +233,8 @@ function getClient(region) {
 
 
 function startInstance(client) {
-  // Prepare userdata and do a basic templating
-  var Handlebars = require('handlebars');
-  var userDataSource = fs.readFileSync(config.userDataFile, 'utf8');
-  var template = Handlebars.compile(userDataSource);
 
-  var source1 = fs.readFileSync(__dirname + '/../lib/scenarios/http-get.js', 'utf8');
-  var source2 = fs.readFileSync(__dirname + '/../lib/scenarios/redis-set.js', 'utf8');
-  var agentSource = fs.readFileSync(__dirname + '/../lib/agent.js', 'utf8');
-  var userDataParams = {
-    scenarios: [
-      { name: 'http-get', source: source1 } ,
-      { name: 'redis-set', source: source2 },
-    ],
-    agent: [
-      { name: 'agent', source: agentSource } ,
-    ]
-  };
-
-  var userdata = template(userDataParams);
+  var userdata = userdataHelper.generate(config);
 
   // We use Cloud Init, see https://help.ubuntu.com/community/CloudInit
   var params = {
