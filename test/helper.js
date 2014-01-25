@@ -12,11 +12,13 @@ describe('helpers', function () {
     done();
   });
 
-  it.only('generate the userdata file', function(done) {
+  it('generate the userdata file', function(done) {
     var config = {
       //userDataFile: __dirname + '/../templates/cloud-config.sh',
       dependencies: {
         'hiredis': '*'
+      },
+      scenarios: {
       },
       scripts: {
         setup: '',
