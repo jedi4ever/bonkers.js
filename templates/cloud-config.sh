@@ -52,7 +52,7 @@ EOF
 {{{source}}}
 {{/scripts}}
 
-sudo -i -u ubuntu npm install hiredis redis request statsd async debug
+sudo -i -u ubuntu npm install request statsd async debug hashmerge
 
 # Installing npm dependencies
 {{#dependencies}}
