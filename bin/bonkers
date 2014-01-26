@@ -13,11 +13,12 @@ var http = require('http');
 var aws2js = require('aws2js');
 var program = require('commander');
 var async = require('async');
+var path = require('path');
 
 debug('about to read config file bonkers.json');
 var config;
 try {
-  var configContent = fs.readFileSync('bonkers.json', 'utf8');
+  var configContent = fs.readFileSync(path.resolve('bonkers.json'), 'utf8');
   config = JSON.parse(configContent);
 } catch (e) {
   debug('failed to load config file',e);
