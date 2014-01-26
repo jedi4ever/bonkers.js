@@ -47,6 +47,11 @@ sudo -u ubuntu tee -a /home/ubuntu/scenarios/{{{name}}}.js > /dev/null <<"EOF"
 EOF
 {{/scenarios}}
 
+# Write our settings
+sudo -u ubuntu tee -a /home/ubuntu/settings.json > /dev/null <<"EOF"
+{{{settings}}}
+EOF
+
 # Write our scripts
 {{#scripts}}
 {{{source}}}
