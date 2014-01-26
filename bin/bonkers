@@ -236,8 +236,6 @@ function startInstance(client) {
 
   var userdata = userdataHelper.generate(config);
 
-  console.log(userdata);
-  process.exit(-1);
   // We use Cloud Init, see https://help.ubuntu.com/community/CloudInit
   var params = {
     InstanceType: (config.instanceType || 't1.micro'),
