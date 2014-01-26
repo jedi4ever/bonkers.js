@@ -11,8 +11,12 @@ var http = require('http');
 var aws2js = require('aws2js');
 var program = require('commander');
 var async = require('async');
+var hashmerge = require('hashmerge');
 
-var config = require('../bonkers.json');
+var config =  {
+  controlPort: 8889
+};
+
 var command_given = false;
 
 var yaml = require('js-yaml');
